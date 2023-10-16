@@ -1,49 +1,36 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { useActivityContext } from "./contexts/ActivityContext";
 
 function App() {
-  // it is initialized with undefined so that we can tell the cursor
-  const [scrollPosition, setPosition] = useState({
-    width: 600,
-    height: 300,
-  });
-
-  useLayoutEffect(() => {
-    function updatePosition(e) {
-      setPosition({ height: e?.clientY ?? 0, width: e?.clientX ?? 0 });
-    }
-    window.addEventListener("mousemove", updatePosition);
-    return () => window.removeEventListener("scroll", updatePosition);
-  }, []);
-
-  const generateLogoWidth = () => {
-    const size = (scrollPosition.width / 1440) * 100 + 0.5;
-
-    return `${size}%`;
-  };
-
-  const generateLogoHeight = () => {
-    // not using percentage here because it will use the need to height
-    //of the container of the logo to be min of 100vh
-    const size = scrollPosition.height + 10;
-    return `${size}px`;
-  };
+  const {
+    generateLogoHeight,
+    generateLogoWidth,
+    inactivateMouseDuration,
+    allowEnlargement,
+    allowRotation,
+  } = useActivityContext();
 
   return (
     <div className="App">
       <header className="App-header">
         <img
           style={{
-            width: generateLogoWidth(),
-            height: generateLogoHeight(),
+            ...(allowEnlargement && {
+              width: generateLogoWidth(),
+              height: generateLogoHeight(),
+            }),
+            ...(!allowRotation && {
+              pointerEvents: "none",
+            }),
           }}
           src={logo}
           className="App-logo"
           alt="logo"
         />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Your Mouse has been inactivity for {inactivateMouseDuration} seconds
         </p>
         <a
           className="App-link"
