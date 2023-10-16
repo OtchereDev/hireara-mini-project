@@ -30,7 +30,10 @@ const ActivityProvider = ({ children }) => {
   );
 
   const generateLogoWidth = () => {
-    const size = (scrollPosition.width / 1440) * 100 + 0.5;
+    // 300px is substracted to account for the 300px the sidebar will take
+    // but in reality the activity should be track just within the part without the sidebar
+    const size =
+      (scrollPosition.width / 1440) * 100 + 0.5 - (isActivityBarOpen ? 300 : 0);
 
     return `${size}%`;
   };
