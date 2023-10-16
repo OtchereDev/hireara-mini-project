@@ -10,6 +10,7 @@ import { useInterval } from "../hooks/useInterval";
 export const ActivityContext = createContext(null);
 
 const ActivityProvider = ({ children }) => {
+  const [isActivityBarOpen, setOpenActivity] = useState(false);
   // state for  activities
   const [allowRotation, setAllowRotation] = useState(false);
   const [allowEnlargement, setAllowEnlargement] = useState(false);
@@ -42,6 +43,22 @@ const ActivityProvider = ({ children }) => {
   };
   const handleMouseOnDoc = (val) => {
     setIsMouseOnDoc(() => val);
+  };
+
+  const toogleNavBar = () => {
+    setOpenActivity(!isActivityBarOpen);
+  };
+
+  const toggleAllowRotation = (isChecked) => {
+    setAllowRotation(isChecked);
+  };
+
+  const toggleAllowEnlargement = (isChecked) => {
+    setAllowEnlargement(isChecked);
+  };
+
+  const toggleAllowInactiveCount = (isChecked) => {
+    setAllowInactiveCount(isChecked);
   };
 
   // 1. detect when mouse enter and leave the document
@@ -85,6 +102,12 @@ const ActivityProvider = ({ children }) => {
         inactivateMouseDuration,
         allowEnlargement,
         allowRotation,
+        isActivityBarOpen,
+        toogleNavBar,
+        toggleAllowRotation,
+        toggleAllowEnlargement,
+        toggleAllowInactiveCount,
+        allowInactiveCount,
       }}
     >
       {children}

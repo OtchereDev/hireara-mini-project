@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useEffect, useLayoutEffect, useState } from "react";
 import { useActivityContext } from "./contexts/ActivityContext";
+import NavBar from "../src/component/shared/NavBar";
 
 function App() {
   const {
@@ -10,11 +10,32 @@ function App() {
     inactivateMouseDuration,
     allowEnlargement,
     allowRotation,
+    isActivityBarOpen,
+    toogleNavBar,
   } = useActivityContext();
 
   return (
     <div className="App">
-      <header className="App-header">
+      <NavBar />
+
+      <header className={`App-header ${!isActivityBarOpen && "full"}`}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          width={"30"}
+          className="icon"
+          onClick={toogleNavBar}
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+          />
+        </svg>
+
         <img
           style={{
             ...(allowEnlargement && {
